@@ -113,6 +113,13 @@ def _get_downloads(ctx):
             ctx.attr.sha256_urls_windows,
             ctx.attr.sha256_urls_extract_windows,
         )
+    elif (ctx.execute(["uname", "-m"]) in ("ppc64le") and
+          (ctx.attr.sha256_urls_ppc64le or
+           ctx.attr.sha256_urls_extract_ppc64le)):
+        return _merge(
+            ctx.attr.sha256_urls_ppc64le,
+            ctx.attr.sha256_urls_extract_ppc64le,
+        )
     elif (ctx.attr.sha256_urls or
           ctx.attr.sha256_urls_extract):
         return _merge(
@@ -165,9 +172,11 @@ filegroup_external = repository_rule(
         "sha256_urls": attr.string_list_dict(),
         "sha256_urls_macos": attr.string_list_dict(),
         "sha256_urls_windows": attr.string_list_dict(),
+        "sha256_urls_ppc64le": attr.string_list_dict(),
         "sha256_urls_extract": attr.string_list_dict(),
         "sha256_urls_extract_macos": attr.string_list_dict(),
         "sha256_urls_extract_windows": attr.string_list_dict(),
+        "sha256_urls_extract_ppc64le": attr.string_list_dict(),
         "strip_prefix": attr.string_dict(),
         "rename": attr.string_dict(),
         "executable": attr.string_list(),
