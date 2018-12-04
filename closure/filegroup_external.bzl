@@ -108,7 +108,7 @@ def _linux_arch_value(repository_ctx):
     """
     os_name = repository_ctx.os.name.lower()
     if (os_name.startswith("mac os") or os_name.find("windows") != -1):
-        return "not linux"
+        return ""
     result = repository_ctx.execute(["uname", "-m"])
     return result.stdout.strip()
 
@@ -130,7 +130,7 @@ def _get_downloads(ctx):
         )
     else:
         arch = _linux_arch_value(ctx) 
-        if (arch.startswith("ppc64le") and
+        if (arch == "ppc64le" and
             (ctx.attr.sha256_urls_ppc64le or
              ctx.attr.sha256_urls_extract_ppc64le)):
           return _merge(
